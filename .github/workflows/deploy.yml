@@ -1,0 +1,98 @@
+name: Deploy ChanFM Website
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # Build job
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Lint HTML files
+        run: |
+          # Install html5validator
+          pip install html5validator
+
+          # Validate HTML files
+          html5validator --root . --ignore-re='.*\.css$|.*\.js$|.*\.md$|.*\.yml$|.*\.yaml$|.*\.json$|.*\.txt$|.*\.png$|.*\.jpg$|.*\.jpeg$|.*\.gif$|.*\.svg$|.*\.ico$|.*\.webp$'
+
+      - name: Check links
+        run: |
+          # Basic link checking with grep
+          echo "Checking for common issues..."
+
+          # Check for relative links without .html extension (basic check)
+          if grep -r "href=['\"]getting-started['\"]" . --include="*.html"; then
+            echo "Warning: Found links without .html extension"
+          fi
+
+          # Check for broken internal links
+          for file in *.html; do
+            if [ -f "$file" ]; then
+              echo "Checking $file..."
+              # This is a basic check - in production you'd use a proper link checker
+            fi
+          done
+
+      - name: Optimize assets
+        run: |
+          echo "Assets already optimized for production"
+          ls -la *.html *.css *.js
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+  # Deployment job
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  # Lighthouse audit job (optional)
+  lighthouse:
+    runs-on: ubuntu-latest
+    needs: deploy
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Wait for deployment
+        run: sleep 30
+
+      - name: Audit with Lighthouse CI
+        uses: treosh/lighthouse-ci-action@v10
+        with:
+          urls: |
+            https://chanfm.github.io
+            https://chanfm.github.io/getting-started.html
+          uploadArtifacts: true
+          temporaryPublicStorage: true

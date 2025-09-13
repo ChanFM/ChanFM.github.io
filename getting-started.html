@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Getting Started - ChanFM</title>
+    <meta name="description" content="Quick start guide for ChanFM - Physics-aligned foundation models for wireless channels">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📡</text></svg>">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar scrolled">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <span class="logo-icon">📡</span>
+                <span class="logo-text">ChanFM</span>
+            </a>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="getting-started.html" class="nav-link active">Get Started</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://github.com/channelfm" class="nav-link github-link" target="_blank">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main style="margin-top: 70px;">
+        <section class="docs" style="padding-top: 3rem;">
+            <div class="container">
+                <div class="section-header">
+                    <h1 class="section-title">Getting Started with ChanFM</h1>
+                    <p class="section-subtitle">Everything you need to start using ChanFM for wireless channel modeling</p>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 3fr 1fr; gap: 3rem; max-width: 1000px; margin: 0 auto;">
+                    <div class="docs-content">
+                        <!-- Installation -->
+                        <div class="doc-section">
+                            <h2><i class="fas fa-download"></i> Installation</h2>
+                            <p>Install ChanFM using pip (recommended) or from source:</p>
+
+                            <div class="code-demo">
+                                <div class="code-tabs">
+                                    <button class="code-tab active" data-tab="pip">pip install</button>
+                                    <button class="code-tab" data-tab="conda">conda</button>
+                                    <button class="code-tab" data-tab="source">from source</button>
+                                </div>
+                                <div class="code-content">
+                                    <div id="pip" class="code-block active">
+                                        <pre><code># Install the latest stable version
+pip install chanfm
+
+# Install with all optional dependencies
+pip install "chanfm[all]"</code></pre>
+                                    </div>
+                                    <div id="conda" class="code-block">
+                                        <pre><code># Coming soon to conda-forge
+conda install -c conda-forge chanfm</code></pre>
+                                    </div>
+                                    <div id="source" class="code-block">
+                                        <pre><code># Install development version
+git clone https://github.com/channelfm/chanfm.git
+cd chanfm
+pip install -e .</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h3>Prerequisites</h3>
+                            <ul class="feature-list">
+                                <li>Python 3.9 or higher</li>
+                                <li>PyTorch 2.3+</li>
+                                <li>NumPy 1.24+</li>
+                                <li>CUDA 11.8+ (optional, for GPU acceleration)</li>
+                            </ul>
+                        </div>
+
+                        <!-- Quick Start -->
+                        <div class="doc-section">
+                            <h2><i class="fas fa-rocket"></i> Quick Start</h2>
+                            <p>Get your first predictions in just a few lines of code:</p>
+
+                            <div class="code-demo">
+                                <div class="code-content">
+                                    <div class="code-block active">
+                                        <pre><code>from chanfm.inference import api
+
+# Define your scenario
+sample = {
+    "env": "UMi",                    # Urban Micro
+    "frequency_Hz": 28e9,            # 28 GHz
+    "tx": {
+        "pos_m": [0, 0, 10],         # Transmitter position [x, y, z]
+        "power_dBm": 23              # Transmit power
+    },
+    "rx": {
+        "pos_m": [50, 0, 1.5]        # Receiver position [x, y, z]
+    },
+    "ant": {
+        "tx_M": 8,                   # 8 TX antennas
+        "rx_N": 8                    # 8 RX antennas
+    }
+}
+
+# Get predictions
+result = api.predict(sample, task=["path_loss_dB", "H"])
+
+print(f"Path loss: {result['path_loss_dB']:.2f} dB")
+print(f"Channel matrix shape: {len(result['H'])}")
+</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Model Loading -->
+                        <div class="doc-section">
+                            <h2><i class="fas fa-cube"></i> Loading Models</h2>
+                            <p>ChanFM provides several pre-trained models for different use cases:</p>
+
+                            <div class="code-demo">
+                                <div class="code-content">
+                                    <div class="code-block active">
+                                        <pre><code>from chanfm.models import ChanFM
+
+# Load pre-trained model
+model = ChanFM.from_pretrained("chanfm-base")
+
+# Or load a specific variant
+model = ChanFM.from_pretrained("chanfm-mini")  # Lightweight
+model = ChanFM.from_pretrained("chanfm-large") # High accuracy
+
+# Load with custom configuration
+model = ChanFM.from_pretrained(
+    "chanfm-base",
+    device="cuda",                    # Use GPU
+    precision="float16"               # Half precision
+)
+</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="model-comparison">
+                                <h3>Model Comparison</h3>
+                                <table class="comparison-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Model</th>
+                                            <th>Parameters</th>
+                                            <th>Latency</th>
+                                            <th>Memory</th>
+                                            <th>Best For</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>chanfm-mini</strong></td>
+                                            <td>7M</td>
+                                            <td>&lt;1ms</td>
+                                            <td>~30MB</td>
+                                            <td>Real-time, Edge</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>chanfm-base</strong></td>
+                                            <td>70M</td>
+                                            <td>~5ms</td>
+                                            <td>~280MB</td>
+                                            <td>General purpose</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>chanfm-large</strong></td>
+                                            <td>700M</td>
+                                            <td>~50ms</td>
+                                            <td>~2.8GB</td>
+                                            <td>Research, High accuracy</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Data Format -->
+                        <div class="doc-section">
+                            <h2><i class="fas fa-database"></i> Data Format</h2>
+                            <p>ChanFM uses a standardized JSON schema for all inputs and outputs:</p>
+
+                            <div class="code-demo">
+                                <div class="code-content">
+                                    <div class="code-block active">
+                                        <pre><code># Complete sample format
+sample = {
+    "scene_id": "scene_001",
+    "env": "Indoor",                 # Indoor | UMi | UMa | RMa | V2X
+    "frequency_Hz": 2.4e9,           # Frequency in Hz
+    "bandwidth_Hz": 20e6,            # Bandwidth in Hz (optional)
+
+    "tx": {
+        "pos_m": [10.5, 5.2, 3.0],  # Position [x, y, z] in meters
+        "power_dBm": 20,             # Transmit power in dBm
+        "velocity_mps": 0            # Velocity in m/s (optional)
+    },
+
+    "rx": {
+        "pos_m": [25.1, 8.7, 1.5],  # Position [x, y, z] in meters
+        "velocity_mps": 1.4          # Velocity in m/s (optional)
+    },
+
+    "antenna": {
+        "tx_M": 4,                   # Number of TX antennas
+        "rx_N": 2,                   # Number of RX antennas
+        "tx_array_geom": "ULA",      # Array geometry (optional)
+        "rx_array_geom": "ULA"       # Array geometry (optional)
+    },
+
+    # Ground truth (for training/evaluation)
+    "ground_truth": {
+        "path_loss_dB": 85.2,
+        "phase_deg": 127.5,
+        "H": [...]                   # Complex channel matrix
+    }
+}
+</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Fine-tuning -->
+                        <div class="doc-section">
+                            <h2><i class="fas fa-cogs"></i> Fine-tuning</h2>
+                            <p>Adapt ChanFM models to your specific scenarios and datasets:</p>
+
+                            <div class="code-demo">
+                                <div class="code-content">
+                                    <div class="code-block active">
+                                        <pre><code>from chanfm.data import load_dataset
+from chanfm.training import Trainer
+
+# Load your custom dataset
+dataset = load_dataset("my_measurements.json")
+
+# Initialize model and trainer
+model = ChanFM.from_pretrained("chanfm-base")
+trainer = Trainer(
+    model=model,
+    learning_rate=1e-4,
+    batch_size=32,
+    max_epochs=50
+)
+
+# Fine-tune the model
+trainer.fit(dataset)
+
+# Save the fine-tuned model
+model.save_pretrained("chanfm-custom")
+</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tip-box">
+                                <h4><i class="fas fa-lightbulb"></i> Fine-tuning Tips</h4>
+                                <ul>
+                                    <li>Start with a lower learning rate (1e-4 to 1e-5)</li>
+                                    <li>Use domain-specific data splits to avoid overfitting</li>
+                                    <li>Monitor validation loss to prevent overtraining</li>
+                                    <li>Consider freezing earlier layers for small datasets</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Next Steps -->
+                        <div class="doc-section">
+                            <h2><i class="fas fa-arrow-right"></i> Next Steps</h2>
+                            <div class="next-steps-grid">
+                                <a href="api-reference.html" class="next-step-card">
+                                    <div class="step-icon"><i class="fas fa-code"></i></div>
+                                    <h3>API Reference</h3>
+                                    <p>Complete documentation of all classes and functions</p>
+                                </a>
+
+                                <a href="examples.html" class="next-step-card">
+                                    <div class="step-icon"><i class="fas fa-play"></i></div>
+                                    <h3>Examples</h3>
+                                    <p>Jupyter notebooks and complete workflows</p>
+                                </a>
+
+                                <a href="https://github.com/channelfm/chanfm-bench" class="next-step-card">
+                                    <div class="step-icon"><i class="fas fa-trophy"></i></div>
+                                    <h3>Benchmark</h3>
+                                    <p>Evaluate your models on ChannelBench</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar -->
+                    <div class="docs-sidebar">
+                        <div class="sidebar-section">
+                            <h3>Quick Links</h3>
+                            <ul class="sidebar-nav">
+                                <li><a href="#installation">Installation</a></li>
+                                <li><a href="#quick-start">Quick Start</a></li>
+                                <li><a href="#models">Loading Models</a></li>
+                                <li><a href="#data-format">Data Format</a></li>
+                                <li><a href="#fine-tuning">Fine-tuning</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="sidebar-section">
+                            <h3>Need Help?</h3>
+                            <ul class="help-links">
+                                <li><a href="https://github.com/channelfm/chanfm/discussions"><i class="fas fa-comments"></i> Discussions</a></li>
+                                <li><a href="https://github.com/channelfm/chanfm/issues"><i class="fas fa-bug"></i> Issues</a></li>
+                                <li><a href="mailto:support@channelfm.org"><i class="fas fa-envelope"></i> Email</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="sidebar-section">
+                            <div class="version-info">
+                                <strong>Latest Version</strong><br>
+                                <span class="version-badge">v0.1.0-alpha</span>
+                                <br><small>Released: 2025-01</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <span class="logo-icon">📡</span>
+                        <span class="logo-text">ChanFM</span>
+                    </div>
+                    <p>Physics-aligned foundation models for wireless channels</p>
+                    <div class="social-links">
+                        <a href="https://github.com/channelfm" target="_blank">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 ChanFM. Licensed under Apache 2.0.</p>
+            </div>
+        </div>
+    </footer>
+
+    <style>
+        .docs-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: var(--shadow);
+        }
+
+        .doc-section {
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .doc-section:last-child {
+            border-bottom: none;
+        }
+
+        .doc-section h2 {
+            color: var(--text-color);
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .doc-section h3 {
+            color: var(--text-color);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 1.5rem 0 1rem 0;
+        }
+
+        .feature-list {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+        }
+
+        .feature-list li {
+            margin-bottom: 0.5rem;
+            color: var(--text-light);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background: white;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .comparison-table th {
+            background: var(--bg-light);
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .comparison-table td {
+            color: var(--text-light);
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, #FFF8E7 0%, #FEF3CD 100%);
+            border: 1px solid #F59E0B;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .tip-box h4 {
+            color: #92400E;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tip-box ul {
+            margin: 0;
+            padding-left: 1.5rem;
+        }
+
+        .tip-box li {
+            color: #92400E;
+            margin-bottom: 0.5rem;
+        }
+
+        .next-steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .next-step-card {
+            background: var(--bg-light);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            text-decoration: none;
+            color: var(--text-color);
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+        }
+
+        .next-step-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .step-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-primary);
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .next-step-card h3 {
+            font-size: 1.125rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .next-step-card p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .docs-sidebar {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: var(--shadow);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .sidebar-section {
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .sidebar-section h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .sidebar-nav,
+        .help-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar-nav li,
+        .help-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-nav a,
+        .help-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .sidebar-nav a:hover,
+        .help-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .version-info {
+            background: var(--bg-light);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+        }
+
+        .version-badge {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            main > section > div > div {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .docs-sidebar {
+                position: static;
+            }
+
+            .next-steps-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found - ChanFM</title>
+    <meta name="description" content="The page you're looking for could not be found">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📡</text></svg>">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar scrolled">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <span class="logo-icon">📡</span>
+                <span class="logo-text">ChanFM</span>
+            </a>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="getting-started.html" class="nav-link">Get Started</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://github.com/channelfm" class="nav-link github-link" target="_blank">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 404 Content -->
+    <main style="margin-top: 70px;">
+        <section class="hero" style="min-height: 80vh;">
+            <div class="hero-bg">
+                <div class="wave-animation"></div>
+            </div>
+            <div class="container">
+                <div class="hero-content">
+                    <div style="font-size: 6rem; margin-bottom: 2rem;">
+                        📡❌
+                    </div>
+                    <h1 class="hero-title" style="font-size: 4rem;">
+                        404
+                    </h1>
+                    <p class="hero-subtitle">Signal Not Found</p>
+                    <p class="hero-description">
+                        The page you're looking for seems to be out of range.
+                        Let's get you back to a stronger signal.
+                    </p>
+
+                    <div class="hero-buttons" style="margin-top: 3rem;">
+                        <a href="index.html" class="btn btn-primary">
+                            <i class="fas fa-home"></i>
+                            Back to Home
+                        </a>
+                        <a href="getting-started.html" class="btn btn-secondary">
+                            <i class="fas fa-rocket"></i>
+                            Get Started
+                        </a>
+                    </div>
+
+                    <div style="margin-top: 3rem;">
+                        <p style="opacity: 0.8; margin-bottom: 1rem;">Popular destinations:</p>
+                        <div style="display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap;">
+                            <a href="index.html#features" style="color: white; text-decoration: none; opacity: 0.8; transition: opacity 0.3s;">
+                                <i class="fas fa-star"></i> Features
+                            </a>
+                            <a href="index.html#models" style="color: white; text-decoration: none; opacity: 0.8; transition: opacity 0.3s;">
+                                <i class="fas fa-cube"></i> Models
+                            </a>
+                            <a href="index.html#benchmark" style="color: white; text-decoration: none; opacity: 0.8; transition: opacity 0.3s;">
+                                <i class="fas fa-trophy"></i> Benchmark
+                            </a>
+                            <a href="https://github.com/channelfm" style="color: white; text-decoration: none; opacity: 0.8; transition: opacity 0.3s;" target="_blank">
+                                <i class="fab fa-github"></i> GitHub
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <span class="logo-icon">📡</span>
+                        <span class="logo-text">ChanFM</span>
+                    </div>
+                    <p>Physics-aligned foundation models for wireless channels</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 ChanFM. Licensed under Apache 2.0.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <style>
+        .hero-content a[href^="index.html"]:hover,
+        .hero-content a[href^="https://github.com"]:hover {
+            opacity: 1 !important;
+        }
+    </style>
+</body>
+</html>

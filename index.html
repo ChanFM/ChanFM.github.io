@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChanFM - Physics-aligned Foundation Model for Wireless Channels</title>
+    <meta name="description" content="Open source foundation models, datasets, and benchmarks for radio propagation across environments, frequencies, and antenna regimes.">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📡</text></svg>">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-icon">📡</span>
+                <span class="logo-text">ChanFM</span>
+            </div>
+            <ul class="nav-menu" id="nav-menu">
+                <li class="nav-item">
+                    <a href="#home" class="nav-link active">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#features" class="nav-link">Features</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#models" class="nav-link">Models</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#benchmark" class="nav-link">Benchmark</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#docs" class="nav-link">Docs</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://github.com/channelfm" class="nav-link github-link" target="_blank">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-bg">
+            <div class="wave-animation"></div>
+        </div>
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <span class="gradient-text">ChanFM</span>
+                </h1>
+                <p class="hero-subtitle">Physics-aligned Foundation Model for Wireless Channels</p>
+                <p class="hero-description">
+                    Open source foundation models, datasets, and benchmarks for radio propagation across
+                    <strong>environments</strong> • <strong>frequencies</strong> • <strong>antenna regimes</strong>
+                </p>
+
+                <div class="hero-features">
+                    <div class="feature-badge">
+                        <i class="fas fa-wave-square"></i>
+                        <span>Near-/Far-field</span>
+                    </div>
+                    <div class="feature-badge">
+                        <i class="fas fa-broadcast-tower"></i>
+                        <span>sub-6/mmWave/THz</span>
+                    </div>
+                    <div class="feature-badge">
+                        <i class="fas fa-satellite-dish"></i>
+                        <span>MIMO/XL-MIMO</span>
+                    </div>
+                    <div class="feature-badge">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Indoor/UMi/UMa/V2X</span>
+                    </div>
+                </div>
+
+                <div class="hero-buttons">
+                    <a href="#get-started" class="btn btn-primary">
+                        <i class="fas fa-rocket"></i>
+                        Get Started
+                    </a>
+                    <a href="https://github.com/channelfm/chanfm" class="btn btn-secondary" target="_blank">
+                        <i class="fab fa-github"></i>
+                        View on GitHub
+                    </a>
+                </div>
+
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-number">🎯</div>
+                        <div class="stat-label">Physics-aligned</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">🔄</div>
+                        <div class="stat-label">Open Source</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">📊</div>
+                        <div class="stat-label">Benchmarked</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="scroll-arrow"></div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Why ChanFM?</h2>
+                <p class="section-subtitle">Advanced foundation models with physical consistency and practical accuracy</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-atom"></i>
+                    </div>
+                    <h3>Physics-aligned</h3>
+                    <p>Built with electromagnetic theory and geometric priors for consistent, interpretable predictions across diverse scenarios.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-cubes"></i>
+                    </div>
+                    <h3>Modular Architecture</h3>
+                    <p>PyTorch-based with pluggable components: geometry encoders, neural backbones, and specialized prediction heads.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3>Unified Data Schema</h3>
+                    <p>Standardized format compatible with ray-tracing simulations and real-world measurements for seamless integration.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>ChannelBench</h3>
+                    <p>Comprehensive evaluation suite with standardized metrics, splits, and leaderboards for fair model comparison.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3>Production Ready</h3>
+                    <p>Export to TorchScript/ONNX, CLI tools, and comprehensive documentation for seamless deployment.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Open Governance</h3>
+                    <p>Apache 2.0 licensed with transparent development process and community-driven roadmap.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Models Section -->
+    <section id="models" class="models">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Model Family</h2>
+                <p class="section-subtitle">Scalable architectures from lightweight to high-capacity models</p>
+            </div>
+
+            <div class="models-grid">
+                <div class="model-card">
+                    <div class="model-header">
+                        <h3>ChanFM-Mini</h3>
+                        <span class="model-badge">Coming Soon</span>
+                    </div>
+                    <div class="model-specs">
+                        <div class="spec">
+                            <span class="spec-label">Parameters:</span>
+                            <span class="spec-value">7M</span>
+                        </div>
+                        <div class="spec">
+                            <span class="spec-label">Use Case:</span>
+                            <span class="spec-value">Edge deployment</span>
+                        </div>
+                        <div class="spec">
+                            <span class="spec-label">Latency:</span>
+                            <span class="spec-value">&lt;1ms</span>
+                        </div>
+                    </div>
+                    <p class="model-description">Lightweight model optimized for real-time applications and resource-constrained environments.</p>
+                </div>
+
+                <div class="model-card featured">
+                    <div class="model-header">
+                        <h3>ChanFM-Base</h3>
+                        <span class="model-badge primary">v0.1.0-alpha</span>
+                    </div>
+                    <div class="model-specs">
+                        <div class="spec">
+                            <span class="spec-label">Parameters:</span>
+                            <span class="spec-value">70M</span>
+                        </div>
+                        <div class="spec">
+                            <span class="spec-label">Use Case:</span>
+                            <span class="spec-value">General purpose</span>
+                        </div>
+                        <div class="spec">
+                            <span class="spec-label">Coverage:</span>
+                            <span class="spec-value">Indoor/UMi/UMa</span>
+                        </div>
+                    </div>
+                    <p class="model-description">Balanced model with strong performance across environments and frequency bands.</p>
+                    <a href="https://github.com/channelfm/chanfm" class="model-link">
+                        <i class="fas fa-download"></i>
+                        Download Model
+                    </a>
+                </div>
+
+                <div class="model-card">
+                    <div class="model-header">
+                        <h3>ChanFM-Large</h3>
+                        <span class="model-badge">Roadmap</span>
+                    </div>
+                    <div class="model-specs">
+                        <div class="spec">
+                            <span class="spec-label">Parameters:</span>
+                            <span class="spec-value">700M</span>
+                        </div>
+                        <div class="spec">
+                            <span class="spec-label">Use Case:</span>
+                            <span class="spec-value">High accuracy</span>
+                        </div>
+                        <div class="spec">
+                            <span class="spec-label">Features:</span>
+                            <span class="spec-value">Near-field, THz</span>
+                        </div>
+                    </div>
+                    <p class="model-description">High-capacity model with advanced features for cutting-edge research applications.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benchmark Section -->
+    <section id="benchmark" class="benchmark">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">ChannelBench</h2>
+                <p class="section-subtitle">Standardized evaluation for reproducible wireless channel modeling research</p>
+            </div>
+
+            <div class="benchmark-content">
+                <div class="benchmark-info">
+                    <div class="benchmark-metric">
+                        <div class="metric-icon">
+                            <i class="fas fa-signal"></i>
+                        </div>
+                        <div class="metric-details">
+                            <h4>Path Loss Accuracy</h4>
+                            <p>Mean Absolute Error (MAE) in dB across frequency bands and environments</p>
+                        </div>
+                    </div>
+
+                    <div class="benchmark-metric">
+                        <div class="metric-icon">
+                            <i class="fas fa-wave-square"></i>
+                        </div>
+                        <div class="metric-details">
+                            <h4>Channel Matrix Fidelity</h4>
+                            <p>Normalized Mean Square Error (NMSE) on complex H-matrix predictions</p>
+                        </div>
+                    </div>
+
+                    <div class="benchmark-metric">
+                        <div class="metric-icon">
+                            <i class="fas fa-tachometer-alt"></i>
+                        </div>
+                        <div class="metric-details">
+                            <h4>Capacity Estimation</h4>
+                            <p>Shannon capacity error analysis under various SNR conditions</p>
+                        </div>
+                    </div>
+
+                    <div class="benchmark-metric">
+                        <div class="metric-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="metric-details">
+                            <h4>Delay Spread</h4>
+                            <p>RMS delay spread accuracy for multipath characterization</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="benchmark-cta">
+                    <h3>Submit Your Model</h3>
+                    <p>Compare your wireless channel model against standardized benchmarks and join the leaderboard.</p>
+                    <a href="https://github.com/channelfm/chanfm-bench" class="btn btn-outline">
+                        <i class="fas fa-trophy"></i>
+                        View Leaderboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Get Started Section -->
+    <section id="get-started" class="get-started">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Get Started</h2>
+                <p class="section-subtitle">Quick installation and first prediction in minutes</p>
+            </div>
+
+            <div class="code-demo">
+                <div class="code-tabs">
+                    <button class="code-tab active" data-tab="install">Installation</button>
+                    <button class="code-tab" data-tab="usage">Usage</button>
+                    <button class="code-tab" data-tab="example">Example</button>
+                </div>
+
+                <div class="code-content">
+                    <div id="install" class="code-block active">
+                        <pre><code># Install ChanFM
+pip install -U pip
+pip install chanfm
+
+# Or install from source
+git clone https://github.com/channelfm/chanfm.git
+cd chanfm
+pip install -e .</code></pre>
+                    </div>
+
+                    <div id="usage" class="code-block">
+                        <pre><code># Quick prediction
+from chanfm.inference import api
+
+sample = {
+    "env": "UMi",
+    "frequency_Hz": 28e9,
+    "tx": {"pos_m": [0, 0, 10], "power_dBm": 23},
+    "rx": {"pos_m": [50, 0, 1.5]},
+    "ant": {"tx_M": 8, "rx_N": 8}
+}
+
+result = api.predict(sample, task=["path_loss_dB", "H"])
+print(f"Path loss: {result['path_loss_dB']:.2f} dB")</code></pre>
+                    </div>
+
+                    <div id="example" class="code-block">
+                        <pre><code># Complete workflow example
+import chanfm
+from chanfm.data import load_dataset
+from chanfm.models import ChanFM
+
+# Load pre-trained model
+model = ChanFM.from_pretrained("chanfm-base")
+
+# Load your data
+data = load_dataset("your_dataset.json")
+
+# Fine-tune for your scenario
+model.finetune(data, epochs=10)
+
+# Export for deployment
+model.export("chanfm_custom.onnx")</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Documentation Section -->
+    <section id="docs" class="docs">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Documentation</h2>
+                <p class="section-subtitle">Comprehensive guides and references</p>
+            </div>
+
+            <div class="docs-grid">
+                <a href="getting-started.html" class="doc-card">
+                    <div class="doc-icon">
+                        <i class="fas fa-play-circle"></i>
+                    </div>
+                    <h3>Getting Started</h3>
+                    <p>Step-by-step guide to install and run your first predictions</p>
+                    <span class="doc-arrow">→</span>
+                </a>
+
+                <a href="model-zoo.html" class="doc-card">
+                    <div class="doc-icon">
+                        <i class="fas fa-cube"></i>
+                    </div>
+                    <h3>Model Zoo</h3>
+                    <p>Browse available models, architectures, and performance metrics</p>
+                    <span class="doc-arrow">→</span>
+                </a>
+
+                <a href="data-format.html" class="doc-card">
+                    <div class="doc-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3>Data Format</h3>
+                    <p>Specification for dataset structure and input/output schemas</p>
+                    <span class="doc-arrow">→</span>
+                </a>
+
+                <a href="api-reference.html" class="doc-card">
+                    <div class="doc-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>API Reference</h3>
+                    <p>Complete API documentation with examples and parameters</p>
+                    <span class="doc-arrow">→</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <span class="logo-icon">📡</span>
+                        <span class="logo-text">ChanFM</span>
+                    </div>
+                    <p>Physics-aligned foundation models for wireless channels</p>
+                    <div class="social-links">
+                        <a href="https://github.com/channelfm" target="_blank" aria-label="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://twitter.com/channelfm" target="_blank" aria-label="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="mailto:contact@channelfm.org" aria-label="Email">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Resources</h4>
+                        <ul>
+                            <li><a href="getting-started.html">Getting Started</a></li>
+                            <li><a href="documentation.html">Documentation</a></li>
+                            <li><a href="examples.html">Examples</a></li>
+                            <li><a href="tutorials.html">Tutorials</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4>Community</h4>
+                        <ul>
+                            <li><a href="https://github.com/channelfm/chanfm/discussions">Discussions</a></li>
+                            <li><a href="https://github.com/channelfm/chanfm/issues">Issues</a></li>
+                            <li><a href="contributing.html">Contributing</a></li>
+                            <li><a href="code-of-conduct.html">Code of Conduct</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4>Project</h4>
+                        <ul>
+                            <li><a href="https://github.com/channelfm/chanfm/releases">Releases</a></li>
+                            <li><a href="roadmap.html">Roadmap</a></li>
+                            <li><a href="changelog.html">Changelog</a></li>
+                            <li><a href="license.html">License</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 ChanFM. Licensed under Apache 2.0.</p>
+                <p>Made with ❤️ for the wireless research community</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
