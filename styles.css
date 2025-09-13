@@ -33,6 +33,27 @@ body {
     --gradient-primary: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
     --gradient-accent: linear-gradient(135deg, var(--accent-color) 0%, #FF8E53 100%);
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --load-state: 0; /* Progressive loading state */
+}
+
+/* Progressive loading animations */
+.hero-content {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.8s ease-out forwards;
+    animation-delay: calc(var(--load-state) * 0.1s);
+}
+
+.hero-features {
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out forwards;
+    animation-delay: calc(var(--load-state) * 0.3s);
+}
+
+.hero-buttons {
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out forwards;
+    animation-delay: calc(var(--load-state) * 0.5s);
 }
 
 /* Container */
@@ -81,7 +102,16 @@ body {
 .logo-icon {
     font-size: 1.8rem;
     margin-right: 0.5rem;
-    animation: rotate 20s linear infinite;
+    /* Reduced animation for better performance */
+    animation: rotate 30s linear infinite;
+    will-change: auto; /* Only animate when visible */
+}
+
+/* Pause animation when not visible */
+@media (prefers-reduced-motion: reduce) {
+    .logo-icon {
+        animation: none;
+    }
 }
 
 @keyframes rotate {
@@ -994,12 +1024,53 @@ section {
     }
 }
 
-/* Animation Performance */
+/* Animation Performance - Optimized */
 .feature-card,
 .model-card,
 .benchmark-metric,
 .doc-card {
+    will-change: auto; /* Only set will-change when animating */
+    transform: translateZ(0); /* Force hardware acceleration */
+}
+
+/* Activate will-change on hover */
+.feature-card:hover,
+.model-card:hover,
+.benchmark-metric:hover,
+.doc-card:hover {
     will-change: transform;
+}
+
+/* Progressive image loading */
+.lazy-load {
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.lazy-load.loaded {
+    opacity: 1;
+}
+
+/* Intersection observer ready states */
+.fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fade-in.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Content visibility optimization */
+.features,
+.models,
+.benchmark,
+.get-started,
+.docs {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 500px;
 }
 
 /* Accessibility */

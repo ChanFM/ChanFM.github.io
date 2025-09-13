@@ -5,10 +5,98 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ChanFM - Physics-aligned Foundation Model for Wireless Channels</title>
     <meta name="description" content="Open source foundation models, datasets, and benchmarks for radio propagation across environments, frequencies, and antenna regimes.">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- DNS prefetch for external domains -->
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" as="style">
+    <link rel="preload" href="styles.css" as="style">
+    <link rel="preload" href="script.js" as="script">
+
+    <!-- Critical CSS inline -->
+    <style>
+    /* Critical above-the-fold CSS */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        line-height: 1.6;
+        color: #2d3748;
+        background: #ffffff;
+        overflow-x: hidden;
+    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+
+    /* Critical navbar styles */
+    .navbar {
+        position: fixed; top: 0; width: 100%;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid #e2e8f0;
+        z-index: 1000;
+        height: 70px;
+    }
+    .nav-container {
+        max-width: 1200px; margin: 0 auto; padding: 0 1.5rem;
+        display: flex; justify-content: space-between; align-items: center; height: 70px;
+    }
+    .nav-logo {
+        display: flex; align-items: center; font-weight: 700;
+        font-size: 1.5rem; color: #0052CC; text-decoration: none;
+    }
+    .logo-icon { font-size: 1.8rem; margin-right: 0.5rem; }
+
+    /* Critical hero styles */
+    .hero {
+        min-height: 100vh; display: flex; align-items: center;
+        position: relative; background: linear-gradient(135deg, #0052CC 0%, #00B8D9 100%);
+        overflow: hidden;
+    }
+    .hero-bg {
+        position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+        background: linear-gradient(135deg, #0052CC 0%, #00B8D9 100%);
+        opacity: 0.95;
+    }
+    .hero-content {
+        position: relative; z-index: 2; text-align: center;
+        color: white; max-width: 800px; margin: 0 auto;
+    }
+    .hero-title {
+        font-size: clamp(3rem, 8vw, 5rem); font-weight: 700;
+        margin-bottom: 1rem;
+    }
+    .gradient-text {
+        background: linear-gradient(135deg, #ffffff 0%, #e6f3ff 100%);
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        background-clip: text; text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    .hero-subtitle {
+        font-size: 1.5rem; margin-bottom: 1rem; opacity: 0.9;
+    }
+    .hero-description {
+        font-size: 1.1rem; margin-bottom: 2rem; opacity: 0.85; line-height: 1.8;
+    }
+    </style>
+
+    <!-- Non-critical CSS loaded asynchronously -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"></noscript>
+
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"></noscript>
+
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📡</text></svg>">
+
+    <!-- PWA manifest -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0052CC">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="ChanFM">
 </head>
 <body>
     <!-- Navigation -->
@@ -497,6 +585,50 @@ model.export("chanfm_custom.onnx")</code></pre>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <!-- Load JavaScript asynchronously -->
+    <script src="script.js" defer></script>
+
+    <!-- Progressive loading and service worker -->
+    <script>
+    // Show content immediately, enhance progressively
+    document.documentElement.style.setProperty('--load-state', '1');
+
+    // Register service worker for caching
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+            navigator.serviceWorker.register('/sw.js')
+                .then(function(registration) {
+                    console.log('SW registered:', registration.scope);
+                })
+                .catch(function(error) {
+                    console.log('SW registration failed:', error);
+                });
+        });
+    }
+
+    // Preload next likely pages
+    if ('requestIdleCallback' in window) {
+        requestIdleCallback(function() {
+            var link = document.createElement('link');
+            link.rel = 'prefetch';
+            link.href = 'getting-started.html';
+            document.head.appendChild(link);
+        });
+    }
+
+    // Performance monitoring
+    window.addEventListener('load', function() {
+        if ('performance' in window) {
+            setTimeout(function() {
+                var perfData = performance.getEntriesByType('navigation')[0];
+                if (perfData) {
+                    console.log('Load time:', perfData.loadEventEnd - perfData.fetchStart, 'ms');
+                    console.log('DOM ready:', perfData.domContentLoadedEventEnd - perfData.fetchStart, 'ms');
+                    console.log('First paint:', performance.getEntriesByType('paint')[0]?.startTime, 'ms');
+                }
+            }, 0);
+        }
+    });
+    </script>
 </body>
 </html>

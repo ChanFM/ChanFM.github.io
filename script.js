@@ -1,12 +1,36 @@
-// DOM Content Loaded
-document.addEventListener('DOMContentLoaded', function() {
+// Performance optimized initialization
+(function() {
+    'use strict';
+
+    // Critical path - execute immediately
     initializeNavigation();
-    initializeScrollEffects();
-    initializeCodeTabs();
-    initializeAnimations();
     initializeMobileMenu();
-    initializeParallax();
-});
+
+    // Non-critical - defer until page is loaded
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializeNonCritical);
+    } else {
+        // DOM already loaded
+        initializeNonCritical();
+    }
+
+    function initializeNonCritical() {
+        requestIdleCallback(function() {
+            initializeScrollEffects();
+            initializeCodeTabs();
+            initializeAnimations();
+        });
+
+        // Defer heavy animations
+        setTimeout(function() {
+            if ('requestIdleCallback' in window) {
+                requestIdleCallback(initializeParallax);
+            } else {
+                initializeParallax();
+            }
+        }, 100);
+    }
+})();
 
 // Navigation functionality
 function initializeNavigation() {
@@ -39,8 +63,17 @@ function initializeNavigation() {
         });
     });
 
-    // Scroll spy for navigation
+    // Throttled scroll spy for navigation
+    let scrollTicking = false;
     window.addEventListener('scroll', function() {
+        if (!scrollTicking) {
+            requestAnimationFrame(handleScroll);
+            scrollTicking = true;
+        }
+    });
+
+    function handleScroll() {
+        scrollTicking = false;
         const sections = document.querySelectorAll('section[id]');
         const scrollPosition = window.scrollY + 100;
 
@@ -60,7 +93,7 @@ function initializeNavigation() {
         } else {
             navbar.classList.remove('scrolled');
         }
-    });
+    }
 }
 
 function updateActiveNavLink(activeId) {
@@ -99,7 +132,7 @@ function closeMobileMenu() {
     navMenu.classList.remove('active');
 }
 
-// Scroll effects and animations
+// Optimized scroll effects and animations
 function initializeScrollEffects() {
     // Intersection Observer for fade-in animations
     const observerOptions = {
@@ -111,24 +144,19 @@ function initializeScrollEffects() {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('animate-in');
+                // Stop observing once animated
+                observer.unobserve(entry.target);
             }
         });
     }, observerOptions);
 
-    // Observe all feature cards, model cards, and other animated elements
-    const animatedElements = document.querySelectorAll('.feature-card, .model-card, .benchmark-metric, .doc-card');
-    animatedElements.forEach(el => {
-        observer.observe(el);
-    });
-
-    // Parallax effect for hero background
-    window.addEventListener('scroll', function() {
-        const scrolled = window.pageYOffset;
-        const parallaxElements = document.querySelectorAll('.wave-animation');
-
-        parallaxElements.forEach(element => {
-            const speed = 0.5;
-            element.style.transform = `translateY(${scrolled * speed}px)`;
+    // Progressive element selection to reduce DOM queries
+    requestIdleCallback(function() {
+        const animatedElements = document.querySelectorAll('.feature-card, .model-card, .benchmark-metric, .doc-card');
+        animatedElements.forEach(el => {
+            // Add fade-in class initially
+            el.classList.add('fade-in');
+            observer.observe(el);
         });
     });
 }
@@ -156,69 +184,59 @@ function initializeCodeTabs() {
     });
 }
 
-// Animation utilities
+// Optimized animation utilities
 function initializeAnimations() {
-    // Add CSS for scroll animations
-    const style = document.createElement('style');
-    style.textContent = `
-        .feature-card,
-        .model-card,
-        .benchmark-metric,
-        .doc-card {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+    // Trigger progressive loading state
+    document.documentElement.style.setProperty('--load-state', '1');
 
-        .feature-card.animate-in,
-        .model-card.animate-in,
-        .benchmark-metric.animate-in,
-        .doc-card.animate-in {
-            opacity: 1;
-            transform: translateY(0);
-        }
+    // Skip heavy animations on slower devices
+    const isLowPowerDevice = navigator.hardwareConcurrency <= 2 ||
+                            navigator.deviceMemory <= 2 ||
+                            /Android.*Chrome\/([0-7]\d|8[01])/.test(navigator.userAgent);
 
-        .feature-card:nth-child(even).animate-in {
-            transition-delay: 0.1s;
-        }
-
-        .feature-card:nth-child(3n).animate-in {
-            transition-delay: 0.2s;
-        }
-    `;
-    document.head.appendChild(style);
-
-    // Typing animation for hero text
-    const heroTitle = document.querySelector('.hero-title');
-    if (heroTitle) {
-        const text = heroTitle.textContent;
-        heroTitle.textContent = '';
-        heroTitle.style.opacity = '1';
-
-        let i = 0;
-        const typeSpeed = 100;
-
-        function typeWriter() {
-            if (i < text.length) {
-                heroTitle.textContent += text.charAt(i);
-                i++;
-                setTimeout(typeWriter, typeSpeed);
-            }
-        }
-
-        setTimeout(typeWriter, 500);
+    if (isLowPowerDevice) {
+        document.body.classList.add('reduced-motion');
+        return;
     }
+
+    // Enable will-change for active elements only
+    const enableWillChange = (elements) => {
+        elements.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                el.style.willChange = 'transform';
+            }, { once: true });
+
+            el.addEventListener('animationend', () => {
+                el.style.willChange = 'auto';
+            }, { once: true });
+        });
+    };
+
+    requestIdleCallback(() => {
+        const hoverElements = document.querySelectorAll('.feature-card, .model-card, .doc-card');
+        enableWillChange(hoverElements);
+    });
 }
 
-// Parallax effects
+// Optimized parallax effects
 function initializeParallax() {
+    // Skip parallax on mobile or low-power devices
+    if (window.innerWidth < 768 ||
+        ('ontouchstart' in window) ||
+        navigator.hardwareConcurrency <= 2) {
+        return;
+    }
+
     let ticking = false;
+    const parallaxElements = document.querySelectorAll('.wave-animation');
+
+    // Cache element references
+    if (parallaxElements.length === 0) return;
 
     function updateParallax() {
         const scrolled = window.pageYOffset;
-        const rate = scrolled * -0.5;
+        const rate = scrolled * -0.3; // Reduced intensity
 
-        const parallaxElements = document.querySelectorAll('.wave-animation');
         parallaxElements.forEach(element => {
             element.style.transform = `translate3d(0, ${rate}px, 0)`;
         });
@@ -233,7 +251,8 @@ function initializeParallax() {
         }
     }
 
-    window.addEventListener('scroll', requestTick);
+    // Use passive event listener
+    window.addEventListener('scroll', requestTick, { passive: true });
 }
 
 // Utility functions

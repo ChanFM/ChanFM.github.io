@@ -1,0 +1,31 @@
+{
+  "name": "ChanFM - Physics-aligned Foundation Model for Wireless Channels",
+  "short_name": "ChanFM",
+  "description": "Open source foundation models, datasets, and benchmarks for radio propagation across environments, frequencies, and antenna regimes.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0052CC",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📡</text></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📡</text></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ],
+  "categories": ["productivity", "developer", "education"],
+  "lang": "en",
+  "scope": "/",
+  "related_applications": [
+    {
+      "platform": "web",
+      "url": "https://github.com/channelfm/chanfm"
+    }
+  ]
+}
